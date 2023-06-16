@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import DashboardView from '@/views/dashboard/index.vue'
 import LoginView from '@/views/login/index.vue'
+import { useAppStore } from '@/store'
 
 // 2. 定义一些路由
 // 每个路由都需要映射到一个组件。
@@ -10,6 +11,8 @@ const routes = [
   { path: '/login', name: 'login', component: LoginView },
 ]
 
+const whiteList = ['/login']
+
 // 3. 创建路由实例并传递 `routes` 配置
 // 你可以在这里输入更多的配置，但我们在这里
 // 暂时保持简单
@@ -18,4 +21,16 @@ export const router = createRouter({
   strict: true,
   history: createWebHashHistory(),
   routes, // `routes: routes` 的缩写
+})
+
+router.beforeEach((to, from, next) => {
+  const appStore = useAppStore()
+
+  if (!appStore.state.token) {
+    whiteList.includes(to.path) ? next() : next(`/login?redirect=${from.path}`)
+  }
+
+  if (appStore.state.token && to.path === '/login') { next('/dashboard') }
+
+  next()
 })

@@ -63,7 +63,7 @@ const handleLogin = async ({ validateResult }: SubmitContext) => {
   try {
     await appStore.login(formData)
     MessagePlugin.success('登录成功')
-    router.push('/dashboard')
+    router.replace('/dashboard')
   } finally {
     loading.value = false
   }
