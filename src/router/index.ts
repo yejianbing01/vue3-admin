@@ -1,14 +1,23 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHashHistory, type RouteRecordRaw } from 'vue-router'
 import DashboardView from '@/views/dashboard/index.vue'
 import LoginView from '@/views/login/index.vue'
+import LayoutView from '@/views/common/layout.vue'
 import { useAppStore } from '@/store'
+
 
 // 2. 定义一些路由
 // 每个路由都需要映射到一个组件。
 // 我们后面再讨论嵌套路由。
-const routes = [
-  { path: '/dashboard', name:'dashboard', component: DashboardView },
+const routes: RouteRecordRaw[] = [
   { path: '/login', name: 'login', component: LoginView },
+  {
+    path: '/',
+    component: LayoutView,
+    redirect: '/dashboard',
+    children: [
+      { path: 'dashboard', name:'dashboard', component: DashboardView },
+    ],
+  },
 ]
 
 const whiteList = ['/login']
