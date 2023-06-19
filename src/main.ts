@@ -10,6 +10,10 @@ import 'tdesign-vue-next/es/style/index.css';
 
 const pinia = createPinia()
   .use(piniaPluginPersistedstate)
+  .use(({ store }) => {
+    const initialState = JSON.parse(JSON.stringify(store.$state))
+    store.$reset = () => store.$patch(initialState)
+  })
 const app = createApp(App)
 
 app.use(router)

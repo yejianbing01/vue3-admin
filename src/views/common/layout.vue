@@ -1,8 +1,8 @@
 <template>
   <t-layout class="layout" >
-    <t-aside>Aside</t-aside>
+    <Aside />
     <t-layout>
-      <t-header>Header</t-header>
+      <Header>Header</Header>
       <t-content>
         <router-view></router-view>
       </t-content>
@@ -12,6 +12,8 @@
 </template>
 
 <script lang="ts" setup>
+import Header from './header.vue'
+import Aside from './aside.vue'
 
 
 </script>
