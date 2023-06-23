@@ -8,5 +8,5 @@ export enum PermissionEnum {
   USER_ROLES = "user:roles",
   USER_ROLES_CREATE = "user:roles:create",
   USER_ROLES_EDIT = "user:roles:edit",
-  USER_ROLES_DELETE = "user:roles:delete"
+  USER_ROLES_DELETE = "user:roles:delete",
 }

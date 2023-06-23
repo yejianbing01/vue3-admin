@@ -7,6 +7,7 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 import 'tdesign-vue-next/dist/reset.css';
 import 'tdesign-vue-next/es/style/index.css';
+import { permissionDirective } from './directives/permission';
 
 const pinia = createPinia()
   .use(piniaPluginPersistedstate)
@@ -19,5 +20,6 @@ const app = createApp(App)
 app.use(router)
 app.use(TDesign);
 app.use(pinia)
+app.directive('permission', permissionDirective)
 
 app.mount('#app')
