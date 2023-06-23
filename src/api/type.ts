@@ -1,3 +1,5 @@
+import type { PermissionEnum } from "@/config/permission.config"
+
 export type TokenRequest = {
   username: string
   password: string
@@ -12,5 +14,5 @@ export type UserType = {
   username: string
   nickname: string
   roles: Array<string>
-  permissions: Array<string>
+  permissions: Array<PermissionEnum>
 }
