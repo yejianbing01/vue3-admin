@@ -5,7 +5,7 @@
     </div>
     <div class="search-area">
       <t-input class="search-area-input" v-model="searchKey.name"></t-input>
-      <t-button @click="fetchUserList">
+      <t-button @click="fetchData">
         <template #icon>
           <t-icon name="search"/>
         </template>
@@ -16,19 +16,19 @@
       :columns="columns" 
       :loading="loading" 
       :pagination="pagination" 
-      :data="tableData"
+      :data="data"
       @page-change="onPageChange"
     />
   </t-card>
 </template>
 
 <script lang="ts" setup>
+import type { BaseTableCol } from 'tdesign-vue-next';
 import type { UserType } from '@/api/type';
-import type { BaseTableCol, PageInfo, PaginationProps } from 'tdesign-vue-next';
-import { onMounted, reactive, ref } from 'vue';
-import { PermissionEnum } from '@/config/permission.config';
 import userApi from '@/api/user'
-
+import { reactive } from 'vue';
+import { PermissionEnum } from '@/config/permission.config';
+import { useSearch } from '@/composables/useSearch'
 
 const columns: BaseTableCol[] = [
   { colKey: 'id', title: 'ID' },
@@ -38,42 +38,9 @@ const columns: BaseTableCol[] = [
   { colKey: 'operation', title: '操作' }
 ]
 
-const loading = ref(false)
-const tableData = ref<UserType[]>([])
-const pagination = reactive<PaginationProps>({
-  current: 1,
-  pageSize: 10,
-  total: 0
-})
-const searchKey = reactive({
-  name: ''
-})
+const searchKey = reactive({ name: '' })
 
-const fetchUserList = () => {
-  loading.value = true
-  userApi.list({
-    page: pagination.current,
-    size: pagination.pageSize,
-    name: searchKey.name
-  })
-    .then(({ data, paging }) => {
-      tableData.value = data
-      pagination.current = paging.page
-      pagination.pageSize = paging.size
-      pagination.total = paging.total
-    })
-    .finally(() => {
-      loading.value = false
-    })
-}
-
-const onPageChange = (pageInfo: PageInfo) => {
-  pagination.current = pageInfo.current
-  pagination.pageSize = pageInfo.pageSize
-  fetchUserList()
-}
-
-onMounted(fetchUserList)
+const { loading, data, pagination,fetchData, onPageChange  } = useSearch<UserType, {name: string}>(userApi, searchKey)
 
 </script>
 

@@ -31,3 +31,7 @@ export type ListResult<T> = {
   paging: Pagination
   data: Array<T>
 }
+
+export interface Searchable<T> {
+  list(filter: Object): Promise<ListResult<T>>
+}

@@ -3,7 +3,7 @@
     <Aside />
     <t-layout>
       <Header>Header</Header>
-      <t-content>
+      <t-content class="content">
         <router-view></router-view>
       </t-content>
       <t-footer>Footer</t-footer>
@@ -21,5 +21,8 @@ import Aside from './aside.vue'
 <style lang="less" scoped>
 .layout{
   height: 100vh;
+  .content{
+    overflow-y: auto;
+  }
 }
 </style>
