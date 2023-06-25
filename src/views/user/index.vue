@@ -29,18 +29,18 @@
       </template>
     </t-table>
   </t-card>
-  <EditDialog :visible="showDialog" :data="editData" @close="onCloseDialog"/>
+  <EditDialog :visible="showDialog" :data="editData" @close="onCloseDialog" @confirm="onConfirm"/>
 </template>
 
 <script lang="ts" setup>
 import type { BaseTableCol } from 'tdesign-vue-next';
-import type { UserType } from '@/api/type';
+import type { UserCreateRequest, UserType } from '@/api/type';
 import userApi from '@/api/user'
 import { reactive } from 'vue';
 import { PermissionEnum } from '@/config/permission.config'
 import { useSearch } from '@/composables/useSearch'
 import { useEditDialog } from '@/composables/useEditDialog'
-import EditDialog from '@/components/EditDialog.vue'
+import EditDialog from './EditDialog.vue'
 
 const columns: BaseTableCol[] = [
   { colKey: 'id', title: 'ID' },
@@ -53,14 +53,7 @@ const columns: BaseTableCol[] = [
 const searchKey = reactive({ name: '' })
 const { loading, data, pagination,fetchData, onPageChange  } = useSearch<UserType, {name: string}>(userApi, searchKey)
 
-const defaultEditData: UserType = {
-  id: '',
-  username: '',
-  nickname: '',
-  roles: [],
-  permissions: []
-}
-const { showDialog, editData, onClickCreateButton, onClickEditButton, onCloseDialog } = useEditDialog<UserType>(defaultEditData)
+const { showDialog, editData, onClickCreateButton, onClickEditButton, onCloseDialog, onConfirm } = useEditDialog<UserType, UserCreateRequest >(userApi, '用户')
 
 </script>
 

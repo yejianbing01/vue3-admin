@@ -36,3 +36,14 @@ export type ListResult<T> = {
 export interface Searchable<T> {
   list(filter: Object): Promise<ListResult<T>>
 }
+
+export interface Editable<R, T> {
+  create(createRequest: R): Promise<T>
+  edit(id: string, createRequest: R): Promise<T>
+}
+
+export interface UserCreateRequest {
+  username: string
+  nickname: string
+  roles?: Array<string>
+}
